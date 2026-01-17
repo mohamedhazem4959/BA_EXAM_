@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Business Administration Exam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        .question {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .answers button {
+            display: block;
+            width: 100%;
+            margin: 6px 0;
+            padding: 10px;
+            font-size: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #e0e0e0;
+        }
+
+        .correct {
+            background: #4CAF50 !important;
+            color: #fff;
+        }
+
+        .wrong {
+            background: #F44336 !important;
+            color: #fff;
+        }
+
+        .answers button:disabled {
+            cursor: not-allowed;
+        }
+
+        #score {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Business Administration Exam</h1>
+
+    <h2>Question One: True or False</h2>
+    <div id="tf"></div>
+
+    <h2>Question Two: Choose the correct answer</h2>
+    <div id="mcq"></div>
+
+    <div id="score"></div>
+
+    <script>
+        let score = 0;
+        let answered = 0;
+        const totalQuestions = 40;
+
+        const tfQuestions = [
+            ["There is a difference between efficiency and effectiveness.", true],
+            ["The Human Relations School appeared as a reaction to the Classical School.", true],
+            ["Intellectual skills are the most important skills for top management.", false],
+            ["Strategic planning determines long-term direction while operational planning focuses on daily activities.", true],
+            ["There is a difference between plans and objectives.", true],
+            ["The Classical School focused on the human aspect in work.", false],
+            ["Organizations differ in importance and effect on work.", false],
+            ["Non-programmed decisions involve a high degree of risk.", true],
+            ["Problem identification is the last step in decision-making.", false],
+            ["Planning is the administrative function on which other functions depend.", true],
+            ["Forecasting depends on prediction.", true],
+            ["The organizational chart shows the formal organizational structure.", true],
+            ["Delegation of authority means assigning responsibility only.", false],
+            ["Control during performance takes place after work is finished.", false],
+            ["Formal organization consists of social relationships.", false],
+            ["Advisory authority has the right to issue orders.", false],
+            ["Post-control is corrective only.", false],
+            ["Control aims at detecting deviations and correcting them.", true],
+            ["Selecting the best alternative is a step in decision-making.", true],
+            ["Follow-up is part of the decision-making process.", true],
+            ["Good objectives must be measurable.", true],
+            ["Policies are part of administrative decision-making.", true],
+            ["Procedures explain steps for performing tasks.", true],
+            ["One disadvantage of group decision-making is wasting time.", true],
+            ["Procedures are general principles guiding thinking.", false],
+            ["Leadership is the ability to influence others.", true],
+            ["Taylor is the founder of Scientific Management.", true],
+            ["Management exists at all administrative levels.", true],
+            ["Management applies to all organizations.", true],
+            ["Management is related to individuals not groups.", false]
+        ];
+
+        const mcqQuestions = [
+            { q: "Which of the following belongs to Bureaucratic Theory?", a: ["Personal relations", "Informal communication", "Hierarchical structure", "Motivation"], c: 2 },
+            { q: "Which school focused on efficiency and productivity?", a: ["Human Relations", "Behavioral", "Classical", "Modern"], c: 2 },
+            { q: "Human skills are most important at:", a: ["Top management", "Middle management", "Lower management", "All management levels"], c: 3 },
+            { q: "The first element of organization is:", a: ["Planning", "Guidance", "Control", "Staffing"], c: 1 },
+            { q: "Informal organization is represented by:", a: ["Organizational chart", "Job description", "Personal relationships", "Authority"], c: 2 },
+            { q: "Span of supervision refers to:", a: ["Number of projects", "Number of branches", "Number of subordinates", "Number of departments"], c: 2 },
+            { q: "Programmed decisions are characterized by:", a: ["High risk", "Unclear results", "Clear rules", "Creativity"], c: 2 },
+            { q: "Which of the following is part of long-term planning?", a: ["Programs", "Projects", "Policies", "Budgets"], c: 2 },
+            { q: "Top management is concerned with:", a: ["Daily supervision", "Operational planning", "Strategic planning", "Execution"], c: 2 },
+            { q: "The first step in decision-making is:", a: ["Evaluating alternatives", "Collecting data", "Identifying the problem", "Implementing decision"], c: 2 }
+        ];
+
+        function checkAnswer(clickedBtn, correctIndex) {
+            const buttons = clickedBtn.parentElement.querySelectorAll("button");
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === correctIndex) btn.classList.add("correct");
+            });
+
+            if (buttons[correctIndex] === clickedBtn) {
+                score++;
+            } else {
+                clickedBtn.classList.add("wrong");
+            }
+
+            answered++;
+            if (answered === totalQuestions) {
+                document.getElementById("score").innerText =
+                    `Final Score: ${score} / ${totalQuestions}`;
+            }
+        }
+
+        const tfDiv = document.getElementById("tf");
+        tfQuestions.forEach((q, i) => {
+            tfDiv.innerHTML += `
+    <div class="question">
+      <p>${i + 1}. ${q[0]}</p>
+      <div class="answers">
+        <button onclick="checkAnswer(this, ${q[1] ? 0 : 1})">True</button>
+        <button onclick="checkAnswer(this, ${q[1] ? 0 : 1})">False</button>
+      </div>
+    </div>
+  `;
+        });
+
+        const mcqDiv = document.getElementById("mcq");
+        mcqQuestions.forEach((q, i) => {
+            let buttons = "";
+            q.a.forEach(ans => buttons += `<button onclick="checkAnswer(this, ${q.c})">${ans}</button>`);
+            mcqDiv.innerHTML += `
+    <div class="question">
+      <p>${i + 1}. ${q.q}</p>
+      <div class="answers">${buttons}</div>
+    </div>
+  `;
+        });
+    </script>
+
+</body>
+
+</html>
